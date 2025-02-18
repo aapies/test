@@ -32,9 +32,15 @@ def get_driver():
 def show_ip():
     driver = get_driver()
     driver.get("https://httpbin.org/ip")
-    
-    # Find the element by class name instead of XPath
-    ip_address = driver.find_element("class name", "objectBox objectBox-string").text
+
+    # Wait for the element with the class 'objectBox objectBox-string' to be present
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.CLASS_NAME, "objectBox-objectBox-string"))
+    )
+
+    # Use a more specific CSS selector to target the IP address
+    ip_address_element = driver.find_element(By.CSS_SELECTOR, ".objectBox.objectBox-string")
+    ip_address = ip_address_element.text
     
     driver.quit()
     return ip_address
