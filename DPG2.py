@@ -34,10 +34,6 @@ def print_html():
     driver = get_driver()
     driver.get("https://httpbin.org/ip")
 
-    # Wait for the page to load (optional, but ensures the content is ready)
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.TAG_NAME, "pre"))
-    )
 
     # Get the page source and print it
     page_source = driver.page_source
