@@ -32,9 +32,13 @@ def get_driver():
 def show_ip():
     driver = get_driver()
     driver.get("https://httpbin.org/ip")
-    ip_address = driver.find_element("xpath", "//pre").text
+    
+    # Find the element by class name instead of XPath
+    ip_address = driver.find_element("class name", "objectBox objectBox-string").text
+    
     driver.quit()
     return ip_address
+
 
 # Display the IP Address in Streamlit
 if st.button("Get My IP Address"):
