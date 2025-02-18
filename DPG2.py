@@ -5,6 +5,9 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 # SCRAPERAPI_KEY from Streamlit secrets
 SCRAPERAPI_KEY = "542c23a8f94fa76d41106eff0fad63c6"
