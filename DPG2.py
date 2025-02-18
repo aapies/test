@@ -3,8 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,7 +15,7 @@ proxy = f"http://scraperapi:{SCRAPERAPI_KEY}@proxy-server.scraperapi.com:8001"
 @st.cache_resource
 def get_driver():
     options = Options()
-    options.add_argument(f"--proxy-server={proxy}") 
+    options.add_argument(f"--proxy-server={proxy}")
     options.add_argument("--disable-gpu")
     options.add_argument("--headless")
     options.add_argument("--no-sandbox")
@@ -31,25 +29,18 @@ def get_driver():
     driver = webdriver.Chrome(service=service, options=options)
     return driver
 
-# Open the page showing your IP address
-def show_ip():
+# Fetch and print the HTML source of the page
+def print_html():
     driver = get_driver()
     driver.get("https://httpbin.org/ip")
 
-    # Wait for the element with the class 'objectBox objectBox-string' to be present
-    WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "objectBox-objectBox-string"))
-    )
-
-    # Use a more specific CSS selector to target the IP address
-    ip_address_element = driver.find_element(By.CSS_SELECTOR, ".objectBox.objectBox-string")
-    ip_address = ip_address_element.text
-    
+    # Get the page source and print it
+    page_source = driver.page_source
     driver.quit()
-    return ip_address
+    
+    # Display the page source as pretty-printed HTML in Streamlit
+    st.code(page_source, language='html')
 
-
-# Display the IP Address in Streamlit
-if st.button("Get My IP Address"):
-    ip = show_ip()
-    st.write(f"My IP Address is: {ip}")
+# Display the HTML in Streamlit
+if st.button("Show HTML Source"):
+    print_html()
